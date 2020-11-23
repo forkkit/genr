@@ -1,0 +1,27 @@
+# genr
+
+{% include 'docs/badges.md' %}
+
+genr generates source code to emulate `generic type`.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- xx
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+# Synopsis
+
+## Generate two types `U16` and `I64` with a template:
+
+```go
+{{ include_file('example/intarray/gen_intarray/gen.go') }}
+```
+
+The generated codes looks like the following:
+
+```go
+{% include 'example/intarray/intarray.go' %}
+```
