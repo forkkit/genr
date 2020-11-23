@@ -1,7 +1,6 @@
 # genr
 
 [![Travis](https://travis-ci.com/openacid/genr.svg?branch=main)](https://travis-ci.com/openacid/genr)
-<!-- [![AppVeyor](https://ci.appveyor.com/api/projects/status/m0vvvrru7a1g4mae/branch/main?svg=true)](https://ci.appveyor.com/project/drmingdrmer/genr/branch/main) -->
 ![test](https://github.com/openacid/genr/workflows/test/badge.svg)
 
 [![Report card](https://goreportcard.com/badge/github.com/openacid/genr)](https://goreportcard.com/report/github.com/openacid/genr)
@@ -67,7 +66,7 @@ func main() {
 		genr.NewIntConfig("I64", "int64"),
 	}
 
-	genr.Render(implfn, implHead, implTemplate, impls, []string{"gofmt"})
+	genr.Render(implfn, implHead, implTemplate, impls, []string{"gofmt", "unconvert"})
 
 }
 
@@ -76,6 +75,8 @@ func main() {
 The generated codes looks like the following:
 
 ```go
+// Code generated 'by go generate ./...'; DO NOT EDIT.
+
 package intarray
 
 import (
@@ -95,7 +96,7 @@ func NewU16(elts []uint16) (a *U16, err error) {
 		first:   make([]byte, 0),
 	}
 
-	binary.LittleEndian.PutUint16(a.first, uint16(elts[0]))
+	binary.LittleEndian.PutUint16(a.first, elts[0])
 	return a, nil
 }
 
