@@ -1,4 +1,6 @@
 // Package genr provides with utilities to generate codes
+// It builds a user defined type `typeName` with type
+// argument `valueType`, to emulate a generic type.
 package genr
 
 import (
@@ -16,11 +18,62 @@ type IntConfig struct {
 	ValType string
 	// ValLen specifies the length of ValType
 	ValLen int
-	// Decoder defines the name of function to decode raw bytes into ValType.
-	Decoder string
+	// Codec defines the name of function to decode raw bytes into ValType.
+	Codec string
 	// EncodeCast defines a cast type/function to convert values before encode.
 	// Because sometimes encoder does not provides a exact type.
 	EncodeCast string
+}
+
+var (
+	valLenMap = map[string]int{
+		"uint8":  1,
+		"uint16": 2,
+		"uint32": 4,
+		"uint64": 8,
+		"int8":   1,
+		"int16":  2,
+		"int32":  4,
+		"int64":  8,
+	}
+
+	decoderMap = map[string]string{
+		"uint8":  "Uint8",
+		"uint16": "Uint16",
+		"uint32": "Uint32",
+		"uint64": "Uint64",
+		"int8":   "Uint8",
+		"int16":  "Uint16",
+		"int32":  "Uint32",
+		"int64":  "Uint64",
+	}
+	encodeCastMap = map[string]string{
+		"uint8":  "uint8",
+		"uint16": "uint16",
+		"uint32": "uint32",
+		"uint64": "uint64",
+		"int8":   "uint8",
+		"int16":  "uint16",
+		"int32":  "uint32",
+		"int64":  "uint64",
+	}
+)
+
+// NewIntConfig build a IntConfig for a user defined type `typeName` with type
+// argument valueType, to emulate a generic type.
+func NewIntConfig(typeName, valueType string) *IntConfig {
+
+	valLen := valLenMap[valueType]
+	codec := decoderMap[valueType]
+	encodeCast := encodeCastMap[valueType]
+
+	return &IntConfig{
+		Name:       typeName,
+		ValType:    valueType,
+		ValLen:     valLen,
+		Codec:      codec,
+		EncodeCast: encodeCast,
+	}
 }
 
 // Render generate a file "fn".

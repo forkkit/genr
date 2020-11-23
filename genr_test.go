@@ -12,6 +12,7 @@ import (
 var implHead = `package genr
 import (
 	_ "math/bits"
+	"encoding/binary"
 )
 `
 
@@ -24,6 +25,8 @@ func New{{.Name}}(elts []{{.ValType}}) (a *{{.Name}}, err error) {
 	a := &{{.Name}}{}
 	var size int  = {{.ValLen}}
 	var v {{.EncodeCast}}
+	buf := []byte{}
+	binary.LittleEndian.Put{{.Codec}}(buf, {{.EncodeCast}}(elts[0]))
 	return a,              nil
 }
 
@@ -37,8 +40,8 @@ func TestRender(t *testing.T) {
 	implfn := pref + ".go"
 
 	impls := []interface{}{
-		IntConfig{Name: "U16", ValType: "uint16", ValLen: 2, Decoder: "Uint16", EncodeCast: "uint16"},
-		IntConfig{Name: "I64", ValType: "int64", ValLen: 8, Decoder: "Uint64", EncodeCast: "uint64"},
+		NewIntConfig("U16", "uint16"),
+		NewIntConfig("I64", "int64"),
 	}
 
 	{
@@ -52,6 +55,7 @@ func TestRender(t *testing.T) {
 package genr
 import (
 	_ "math/bits"
+	"encoding/binary"
 )
 
 
@@ -63,6 +67,8 @@ func NewU16(elts []uint16) (a *U16, err error) {
 	a := &U16{}
 	var size int  = 2
 	var v uint16
+	buf := []byte{}
+	binary.LittleEndian.PutUint16(buf, uint16(elts[0]))
 	return a,              nil
 }
 
@@ -75,6 +81,8 @@ func NewI64(elts []int64) (a *I64, err error) {
 	a := &I64{}
 	var size int  = 8
 	var v uint64
+	buf := []byte{}
+	binary.LittleEndian.PutUint64(buf, uint64(elts[0]))
 	return a,              nil
 }
 
@@ -100,6 +108,7 @@ func NewI64(elts []int64) (a *I64, err error) {
 package genr
 
 import (
+	"encoding/binary"
 	_ "math/bits"
 )
 
@@ -111,6 +120,8 @@ func NewU16(elts []uint16) (a *U16, err error) {
 	a := &U16{}
 	var size int = 2
 	var v uint16
+	buf := []byte{}
+	binary.LittleEndian.PutUint16(buf, elts[0])
 	return a, nil
 }
 
@@ -122,6 +133,8 @@ func NewI64(elts []int64) (a *I64, err error) {
 	a := &I64{}
 	var size int = 8
 	var v uint64
+	buf := []byte{}
+	binary.LittleEndian.PutUint64(buf, uint64(elts[0]))
 	return a, nil
 }
 `[1:]
