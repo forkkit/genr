@@ -7,6 +7,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/openacid/genr/badge.svg?branch=main&service=github)](https://coveralls.io/github/openacid/genr?branch=main&service=github)
 
 [![GoDoc](https://godoc.org/github.com/openacid/genr?status.svg)](http://godoc.org/github.com/openacid/genr)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/openacid/genr)](https://pkg.go.dev/github.com/openacid/genr)
 [![Sourcegraph](https://sourcegraph.com/github.com/openacid/genr/-/badge.svg)](https://sourcegraph.com/github.com/openacid/genr?badge)
 
 genr generates source code to emulate `generic type`.
